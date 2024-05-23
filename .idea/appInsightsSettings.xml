@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.rstj.sikat" />
+                  <option name="mobileSdkAppId" value="1:521977896916:android:2f7d0821360e26b4618041" />
+                  <option name="projectId" value="sikat-90685" />
+                  <option name="projectNumber" value="521977896916" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

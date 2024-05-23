@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.profile.ProfileFragment">
+    tools:context=".src.profile.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/action_bar"
@@ -61,7 +61,7 @@
                 app:layout_constraintTop_toTopOf="@id/img_avatar_user"
                 app:layout_constraintStart_toEndOf="@id/img_avatar_user"
                 app:layout_constraintBottom_toTopOf="@id/tv_email_user"
-                android:text="AlluringJk"/>
+                android:text="Anonim"/>
 
             <TextView
                 android:id="@+id/tv_email_user"
@@ -70,7 +70,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_name_user"
                 app:layout_constraintStart_toStartOf="@id/tv_name_user"
                 app:layout_constraintBottom_toBottomOf="@id/img_avatar_user"
-                android:text="allker@gmail.com"/>
+                tools:text="allker@gmail.com"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -96,12 +96,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_logout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="16dp"
         android:backgroundTint="@color/md_theme_errorContainer"
         android:background="@drawable/rounded"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/content"
         tools:layout_editor_absoluteX="16dp">
 
         <TextView
@@ -118,17 +119,4 @@
             app:layout_constraintVertical_bias="0.5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/text_notifications"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

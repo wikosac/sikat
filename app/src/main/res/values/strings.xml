@@ -3,4 +3,18 @@
     <string name="title_home">Beranda</string>
     <string name="title_service">Layanan</string>
     <string name="title_profile">Profil</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">Email</string>
+    <string name="password">Sandi</string>
+    <string name="name">Name</string>
+    <string name="daftar"><u>Daftar</u></string>
+    <string name="masuk"><u>Masuk</u></string>
+    <string name="daftar_title">Daftar</string>
+    <string name="masuk_title">Masuk</string>
+    <string name="informasi">Informasi</string>
+    <string name="tarif">Tarif</string>
+    <string name="trayek">Trayek</string>
+    <string name="kendaraan">Kendaraan</string>
+    <string name="cari_layanan">Cari layanan</string>
 </resources>

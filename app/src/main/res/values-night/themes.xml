@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.Sikat" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
@@ -52,5 +52,9 @@
         <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
+
+        <item name="windowSplashScreenBackground">@color/md_theme_errorContainer</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/baseline_person_24</item>
+        <item name="windowSplashScreenAnimationDuration">2000</item>
     </style>
 </resources>

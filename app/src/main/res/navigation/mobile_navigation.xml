@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.rstj.sikat.ui.home.HomeFragment"
+        android:name="com.rstj.sikat.src.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_service"
-        android:name="com.rstj.sikat.ui.service.ServiceFragment"
+        android:name="com.rstj.sikat.src.service.ServiceFragment"
         android:label="@string/title_service"
         tools:layout="@layout/fragment_service" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.rstj.sikat.ui.profile.ProfileFragment"
+        android:name="com.rstj.sikat.src.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
