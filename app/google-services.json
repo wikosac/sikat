@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "521977896916",
+    "firebase_url": "https://sikat-90685-default-rtdb.firebaseio.com",
+    "project_id": "sikat-90685",
+    "storage_bucket": "sikat-90685.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521977896916:android:2f7d0821360e26b4618041",
+        "android_client_info": {
+          "package_name": "com.rstj.sikat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHJMHakzhMRKZKmqdRe6r3eKTTqNxQOaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
