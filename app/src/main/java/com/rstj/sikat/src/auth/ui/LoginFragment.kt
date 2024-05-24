@@ -47,7 +47,7 @@ class LoginFragment : Fragment() {
         viewModel.login(email, password).observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
-                    // Show loading indicator
+                    binding.loadingIndicator.visibility = View.VISIBLE
                 }
                 is Resource.Success -> {
                     viewModel.saveTokenPref(email)
@@ -56,6 +56,7 @@ class LoginFragment : Fragment() {
                     requireActivity().finish()
 
                     Toast.makeText(requireContext(), "Berhasil Masuk", Toast.LENGTH_SHORT).show()
+                    binding.loadingIndicator.visibility = View.GONE
                 }
                 is Resource.Error -> {
                     Toast.makeText(
@@ -63,6 +64,7 @@ class LoginFragment : Fragment() {
                         it.exception.message.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
+                    binding.loadingIndicator.visibility = View.GONE
                 }
             }
         }

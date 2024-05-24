@@ -6,17 +6,18 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/bus"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/bus"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/Base.Theme.Sikat"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".src.auth.AuthActivity"
             android:exported="false" />
         <activity
-            android:name=".src.auth.AuthActivity"
+            android:name=".MainActivity"
+            android:theme="@style/Theme.MyApp.Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
