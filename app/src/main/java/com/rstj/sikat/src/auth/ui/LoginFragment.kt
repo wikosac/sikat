@@ -2,7 +2,6 @@ package com.rstj.sikat.src.auth.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,9 @@ import androidx.navigation.fragment.findNavController
 import com.rstj.sikat.MainActivity
 import com.rstj.sikat.R
 import com.rstj.sikat.databinding.FragmentLoginBinding
-import com.rstj.sikat.src.Resource
-import com.rstj.sikat.src.ViewModelFactory
 import com.rstj.sikat.src.auth.AuthViewModel
+import com.rstj.sikat.src.utils.Resource
+import com.rstj.sikat.src.utils.ViewModelFactory
 
 class LoginFragment : Fragment() {
 

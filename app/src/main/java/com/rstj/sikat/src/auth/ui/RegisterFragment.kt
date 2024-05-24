@@ -13,9 +13,9 @@ import androidx.navigation.navOptions
 import com.rstj.sikat.MainActivity
 import com.rstj.sikat.R
 import com.rstj.sikat.databinding.FragmentRegisterBinding
-import com.rstj.sikat.src.Resource
-import com.rstj.sikat.src.ViewModelFactory
 import com.rstj.sikat.src.auth.AuthViewModel
+import com.rstj.sikat.src.utils.Resource
+import com.rstj.sikat.src.utils.ViewModelFactory
 
 class RegisterFragment : Fragment() {
 

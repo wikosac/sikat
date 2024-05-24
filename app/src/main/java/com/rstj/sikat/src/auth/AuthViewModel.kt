@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.AuthResult
-import com.rstj.sikat.src.Resource
-import com.rstj.sikat.src.SettingPreferences
+import com.rstj.sikat.src.utils.Resource
+import com.rstj.sikat.src.utils.SettingPreferences
 import kotlinx.coroutines.launch
 
 class AuthViewModel(

@@ -1,12 +1,12 @@
-package com.rstj.sikat.src
+package com.rstj.sikat.src.utils
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.rstj.sikat.src.Injection.providePreferences
-import com.rstj.sikat.src.Injection.provideRepository
 import com.rstj.sikat.src.auth.AuthRepository
 import com.rstj.sikat.src.auth.AuthViewModel
+import com.rstj.sikat.src.utils.Injection.providePreferences
+import com.rstj.sikat.src.utils.Injection.provideRepository
 
 class ViewModelFactory(
     private val authRepository: AuthRepository,

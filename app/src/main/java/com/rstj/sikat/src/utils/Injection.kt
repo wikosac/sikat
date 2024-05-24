@@ -1,4 +1,4 @@
-package com.rstj.sikat.src
+package com.rstj.sikat.src.utils
 
 import android.content.Context
 import androidx.datastore.core.DataStore

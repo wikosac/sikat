@@ -1,12 +1,10 @@
 package com.rstj.sikat.src.auth
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.rstj.sikat.src.Resource
+import com.rstj.sikat.src.utils.Resource
 
 class AuthRepository(private val firebaseAuth: FirebaseAuth) {
 
