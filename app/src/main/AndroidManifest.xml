@@ -13,6 +13,9 @@
         android:theme="@style/Base.Theme.Sikat"
         tools:targetApi="31">
         <activity
+            android:name=".src.vehicle.VehicleActivity"
+            android:exported="false" />
+        <activity
             android:name=".src.maps.MapsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />

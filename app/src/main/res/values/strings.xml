@@ -16,4 +16,8 @@
     <string name="trayek">Trayek</string>
     <string name="kendaraan">Kendaraan</string>
     <string name="cari_layanan">Cari layanan</string>
+    <string name="nama_pengemudi">Pengemudi: %1$s</string>
+    <string name="plat_nomor">Plat nomor: %1$s</string>
+    <string name="rute">Rute: %1$s</string>
+    <string name="fare">Tarif: Rp5000</string>
 </resources>

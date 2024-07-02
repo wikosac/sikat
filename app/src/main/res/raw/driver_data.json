@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "plat_angkot": "G1127BD",
+    "rute":"-",
+    "nama": "ARROFIQI MUHAMMAD FAIZAL",
+    "ttl": "PURBALINGGA 1 JUNI 1998",
+    "usia": "26 TAHUN",
+    "jenis_kelamin": "LAKI – LAKI",
+    "alamat": "JL. NANAS RT 6/RW 9 KETUREN KOTA TEGAL"
+  },
+  {
+    "id": 2,
+    "plat_angkot": "G1213GR",
+    "rute": "-",
+    "nama": "CANDRA GREAT IMMANUEL",
+    "ttl": "PADANG 14 AGUSTUS 1999",
+    "usia": "25 TAHUN",
+    "jenis_kelamin": "LAKI – LAKI",
+    "alamat": "JL. KANTIL RT 2/RW 3 KEJAMBON KOTA TEGAL"
+  },
+  {
+    "id": 3,
+    "plat_angkot": "G4156YA",
+    "rute": "-",
+    "nama": "BANI IRSYAD",
+    "ttl": "SERANG 8 DESEMBER 1995",
+    "usia": "29 TAHUN",
+    "jenis_kelamin": "LAKI – LAKI",
+    "alamat": "JL. MERPATI RT 5/RW 3 MARGADANA KOTA TEGAL"
+  },
+  {
+    "id": 4,
+    "plat_angkot": "G2465JB",
+    "rute": "-",
+    "nama": "DIMAS NUGROHO PUTRO",
+    "ttl": "NGAWI 7 FEBRUARI 1990",
+    "usia": "34 TAHUN",
+    "jenis_kelamin": "LAKI – LAKI",
+    "alamat": "JL. DUKUHWARU RT 1/RW 1 SLAWI KAB. TEGAL"
+  },
+  {
+    "id": 5,
+    "plat_angkot": "G1620AZ",
+    "rute": "-",
+    "nama": "DIYAN PRAYOGO",
+    "ttl": "TULUNGAGUNG 28 MEI 1988",
+    "usia": "36 TAHUN",
+    "jenis_kelamin": "LAKI – LAKI",
+    "alamat": "JL. KS. TUBUN KOTA TEGAL"
+  },
+  {
+    "id": 6,
+    "plat_angkot": "G1456RR",
+    "rute": "-",
+    "nama": "GOKLAS HENDRA UKTOLSEJA",
+    "ttl": "MEDAN",
+    "usia": "33",
+    "jenis_kelamin": "LAKI – LAKI",
+    "alamat": "JL. JALAK RT 7/5 DUKUHTURI KOTA TEGAL"
+  },
+  {
+    "id": 7,
+    "plat_angkot": "G1342VV",
+    "rute": "-",
+    "nama": "ILHAM ABDURRAZZAK",
+    "ttl": "BANYUMAS 2 JUNI 1990",
+    "usia": "34 TAHUN",
+    "jenis_kelamin": "LAKI – LAKI",
+    "alamat": "JL. NURI RT 9/1 DEBONG KOTA TEGAL"
+  },
+  {
+    "id": 8,
+    "plat_angkot": "G1648CC",
+    "rute": "-",
+    "nama": "MAHENDRA YOGA SAPUTRA",
+    "ttl": "GROBOGAN 8 MARET 1989",
+    "usia": "35 TAHUN",
+    "jenis_kelamin": "LAKI – LAKI",
+    "alamat": "JL. AYAM RT1/1 TUNON KOTA TEGAL"
+  },
+  {
+    "id": 9,
+    "plat_angkot": "G6543JJ",
+    "rute": "-",
+    "nama": "MUHAMMAD IBRAHIM SUGIYANTO",
+    "ttl": "KARANGANYAR 1 FEBRUARI 1980",
+    "usia": "44 TAHUN",
+    "jenis_kelamin": "LAKI – LAKI",
+    "alamat": "JL. HANOMAN RT5/4 TEGAL SELATAN KOTA TEGAL"
+  },
+  {
+    "id": 10,
+    "plat_angkot": "G2972WW",
+    "rute": "-",
+    "nama": "MUHAMMAD RAFLY RIVALDY",
+    "ttl": "BOGOR 11 APRIL 1990",
+    "usia": "34 TAHUN",
+    "jenis_kelamin": "LAKI – LAKI",
+    "alamat": "JL. KEMIRI RT3/2 RANDUGUNTING KOTA TEGAL"
+  }
+]
