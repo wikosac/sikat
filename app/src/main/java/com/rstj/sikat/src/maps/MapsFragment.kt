@@ -6,7 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -15,23 +16,132 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.rstj.sikat.BuildConfig
 import com.rstj.sikat.R
+import com.rstj.sikat.databinding.FragmentMapsBinding
+import com.rstj.sikat.src.database.PolylineDao
+import com.rstj.sikat.src.database.PolylineDatabase
+import com.rstj.sikat.src.database.PolylineEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 
 class MapsFragment : Fragment() {
 
-    private val callback = OnMapReadyCallback { googleMap ->
-        val rita = LatLng(-6.870550430170776, 109.11867025091709)
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(rita, 13f))
-        googleMap.uiSettings.isZoomControlsEnabled = true
-        googleMap.uiSettings.isRotateGesturesEnabled = false
+    private lateinit var binding: FragmentMapsBinding
+    private lateinit var googleMap: GoogleMap
+    private lateinit var polylineDatabase: PolylineDatabase
+    private lateinit var polylineDao: PolylineDao
+//    private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
 
+    private val routeList = mutableListOf<RouteModel>()
+    private val callback = OnMapReadyCallback { maps ->
+        googleMap = maps
+
+        val rita = LatLng(-6.870550430170776, 109.11867025091709)
+        maps.moveCamera(CameraUpdateFactory.newLatLngZoom(rita, 13f))
+        maps.uiSettings.isZoomControlsEnabled = true
+        maps.uiSettings.isRotateGesturesEnabled = false
+
+        drawRoute()
+        setupSpinner(routeList.map { it.title })
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentMapsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(callback)
+
+        polylineDatabase = PolylineDatabase.getDatabase(requireContext())
+        polylineDao = polylineDatabase.polylineDao()
+
+//        bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
+//        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+//        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+//            override fun onStateChanged(bottomSheet: View, newState: Int) {
+//                // Handle state changes
+//                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+//                    binding.bottomSheet.visibility = View.GONE
+//                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+//                    binding.bottomSheet.visibility = View.VISIBLE
+//                }
+//            }
+//
+//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+//                // Handle slide offset changes
+//            }
+//        })
+
+        binding.btnBack.setOnClickListener { requireActivity().finish() }
+    }
+
+    private fun setupSpinner(routeTitles: List<String>) {
+        // Create an ArrayAdapter using the string list and a default spinner layout
+        val adapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, routeTitles)
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        // Apply the adapter to the spinner
+        binding.spinner.adapter = adapter
+
+        // Optionally, set an item selected listener
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                // Do something with the selected item
+                val selectedItem = parent.getItemAtPosition(position).toString()
+
+                if (position == 0) {
+                    googleMap.clear()
+                    drawRoute()
+                } else {
+                    routeList.forEach {
+                        if (it.title == selectedItem) {
+                            googleMap.clear()
+                            makeRoute(it)
+                            showBottomSheet(it.title, it.stops.map { transit -> transit.tag })
+                        }
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Another interface callback
+            }
+        }
+    }
+
+    private fun showBottomSheet(routeTitle: String, transitsTitle: List<String>) {
+//        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+//
+//        binding.tvTitleSheet.text = routeTitle
+
+        val bottomSheet = BottomSheetFragment.newInstance(routeTitle, transitsTitle)
+        bottomSheet.show(requireActivity().supportFragmentManager, BottomSheetFragment.TAG)
+    }
+
+    private fun drawRoute() {
         val terminal = LatLng(-6.8726878722179565, 109.10778548169424)
         val halteYosSudarso = LatLng(-6.854897, 109.136277)
         val haltePoltran = LatLng(-6.869972, 109.145281)
@@ -41,65 +151,128 @@ class MapsFragment : Fragment() {
         val halteSmp6 = LatLng(-6.859115, 109.125995)
         val slawi = LatLng(-6.983040804249951, 109.13758624187152)
 
-        val allPositions = listOf(terminal, halteYosSudarso, haltePoltran, halteSmpMuh, halteMayjend, banjaran, halteSmp6, slawi)
-        makeMarker(googleMap, allPositions, "Halte")
+        val transitTerminal = TransitModel(terminal, "Terminal Tegal")
+        val transitHalteYosSudarso = TransitModel(halteYosSudarso, "Halte Yos Sudarso")
+        val transitHaltePoltran = TransitModel(haltePoltran, "Halte Poltran")
+        val transitHalteSmpMuh = TransitModel(halteSmpMuh, "Halte SMP Muh")
+        val transitHalteMayjend = TransitModel(halteMayjend, "Halte Mayjend")
+        val transitBanjaran = TransitModel(banjaran, "Banjaran")
+        val transitHalteSmp6 = TransitModel(halteSmp6, "Halte SMP 6")
+        val transitSlawi = TransitModel(slawi, "Slawi")
 
-        val jalurA1 = listOf(terminal, halteYosSudarso, haltePoltran, terminal)
-        val jalurA2 = listOf(terminal, halteSmpMuh, haltePoltran, halteMayjend, terminal)
-        val jalurTegalBanjaran = listOf(terminal, halteSmp6, banjaran, halteMayjend, terminal)
-        val jalurTegalSlawi = listOf(terminal, halteYosSudarso, halteSmpMuh, banjaran, slawi)
-        makeRoute(jalurA1, googleMap, Color.CYAN)
-        makeRoute(jalurA2, googleMap, Color.RED)
-        makeRoute(jalurTegalBanjaran, googleMap, Color.MAGENTA)
-        makeRoute(jalurTegalSlawi, googleMap, Color.GREEN)
+        val jalurA1Transit =
+            listOf(transitTerminal, transitHalteYosSudarso, transitHaltePoltran, transitTerminal)
+        val jalurA2Transit = listOf(
+            transitTerminal,
+            transitHalteSmpMuh,
+            transitHaltePoltran,
+            transitHalteMayjend,
+            transitTerminal
+        )
+        val jalurTegalBanjaranTransit = listOf(
+            transitTerminal,
+            transitHalteSmp6,
+            transitBanjaran,
+            transitHalteMayjend,
+            transitTerminal
+        )
+        val jalurTegalSlawiTransit = listOf(
+            transitTerminal,
+            transitHalteYosSudarso,
+            transitHalteSmpMuh,
+            transitBanjaran,
+            transitSlawi
+        )
+
+        val route0 = RouteModel(jalurA1Transit, Color.BLACK, "Pilih Rute")
+        val route1 = RouteModel(jalurA1Transit, Color.CYAN, "Jalur A1")
+        val route2 = RouteModel(jalurA2Transit, Color.RED, "Jalur A2")
+        val route3 = RouteModel(jalurTegalBanjaranTransit, Color.MAGENTA, "Jalur Tegal Banjaran")
+        val route4 = RouteModel(jalurTegalSlawiTransit, Color.GREEN, "Jalur Tegal Slawi")
+
+        routeList.add(route0)
+        routeList.add(route1)
+        routeList.add(route2)
+        routeList.add(route3)
+        routeList.add(route4)
+
+        makeRoute(route1)
+        makeRoute(route2)
+        makeRoute(route3)
+        makeRoute(route4)
     }
 
-    private fun makeRoute(coordinates: List<LatLng>, googleMap: GoogleMap, color: Int) {
-        for (i in 0 until coordinates.size - 2) {
-            fetchRoute(coordinates[i], coordinates[i + 1], googleMap, color)
+    private fun makeRoute(route: RouteModel) {
+        makeMarker(route.stops.map { it.coordinate }, route.stops.map { it.tag })
+        for (i in 0 until route.stops.size - 2) {
+            fetchRoute(route.stops[i].coordinate, route.stops[i + 1].coordinate, route.color)
         }
     }
 
-    private fun makeMarker(googleMap: GoogleMap, positions: List<LatLng>, title: String) {
+    private fun makeMarker(positions: List<LatLng>, titles: List<String>) {
+        Log.d("MapsFragment", "titles: $titles")
         positions.forEach {
-            googleMap.addMarker(MarkerOptions().position(it).title(title))
+            googleMap.addMarker(MarkerOptions().position(it).title(titles[positions.indexOf(it)]))
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_maps, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
-
-        view.findViewById<CardView>(R.id.btn_back).setOnClickListener { requireActivity().finish() }
-    }
-
-    private fun fetchRoute(origin: LatLng, destination: LatLng, map: GoogleMap, color: Int) {
-        val url = getDirectionsUrl(origin, destination)
+    private fun fetchRoute(origin: LatLng, destination: LatLng, color: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            val client = OkHttpClient()
-            val request = Request.Builder().url(url).build()
-            val response = client.newCall(request).execute()
-            Log.d("MapsFragment", "fetching: $url")
-            val responseData = response.body?.string()
-            if (responseData != null) {
-                val jsonObject = JSONObject(responseData)
-                val routes = jsonObject.getJSONArray("routes")
-                if (routes.length() > 0) {
-                    val points = routes.getJSONObject(0)
-                        .getJSONObject("overview_polyline")
-                        .getString("points")
-                    val polylineOptions = decodePolyline(points, color)
-                    CoroutineScope(Dispatchers.Main).launch {
-                        map.addPolyline(polylineOptions)
+            val cachedPolyline = polylineDao.getPolyline(
+                origin.latitude,
+                origin.longitude,
+                destination.latitude,
+                destination.longitude
+            )
+            if (cachedPolyline != null) {
+                // Decode the cached polyline and add it to the map
+                val polylineOptions = decodePolyline(cachedPolyline.polyline, cachedPolyline.color)
+                withContext(Dispatchers.Main) {
+                    googleMap.addPolyline(polylineOptions)
+                }
+            } else {
+                // Fetch the route from the API
+                val url = getDirectionsUrl(origin, destination)
+                val client = OkHttpClient()
+                val request = Request.Builder().url(url).build()
+                val response = client.newCall(request).execute()
+                Log.d("MapsFragment", "fetching: $url")
+                val responseData = response.body?.string()
+                if (responseData != null) {
+                    val jsonObject = JSONObject(responseData)
+                    val routes = jsonObject.getJSONArray("routes")
+                    if (routes.length() > 0) {
+                        val points = routes.getJSONObject(0)
+                            .getJSONObject("overview_polyline")
+                            .getString("points")
+                        val polylineOptions = decodePolyline(points, color)
+
+                        // Stops
+                        val startAddress = routes.getJSONObject(0)
+                            .getJSONArray("legs")
+                            .getJSONObject(0)
+                            .getString("start_address")
+                        val endAddress = routes.getJSONObject(0)
+                            .getJSONArray("legs")
+                            .getJSONObject(0)
+                            .getString("end_address")
+
+                        // Cache the fetched polyline
+                        val polylineEntity = PolylineEntity(
+                            originLat = origin.latitude,
+                            originLng = origin.longitude,
+                            destLat = destination.latitude,
+                            destLng = destination.longitude,
+                            polyline = points,
+                            color = color,
+                            startAddress = startAddress,
+                            endAddress = endAddress
+                        )
+                        polylineDao.insertPolyline(polylineEntity)
+
+                        withContext(Dispatchers.Main) {
+                            googleMap.addPolyline(polylineOptions)
+                        }
                     }
                 }
             }
@@ -115,7 +288,7 @@ class MapsFragment : Fragment() {
     }
 
     private fun decodePolyline(encoded: String, color: Int): PolylineOptions {
-        val polylineOptions = PolylineOptions().color(color).width(4f)
+        val polylineOptions = PolylineOptions().color(color).width(4f).clickable(true)
         var index = 0
         val len = encoded.length
         var lat = 0
