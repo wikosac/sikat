@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.rstj.sikat.databinding.FragmentHomeBinding
 import com.rstj.sikat.src.maps.MapsActivity
+import com.rstj.sikat.src.vehicle.VehicleActivity
 
 class HomeFragment : Fragment() {
 
@@ -30,6 +31,9 @@ class HomeFragment : Fragment() {
 
         binding.cardTrayek.setOnClickListener {
             startActivity(Intent(requireActivity(), MapsActivity::class.java))
+        }
+        binding.cardVehicle.setOnClickListener {
+            startActivity(Intent(requireActivity(), VehicleActivity::class.java))
         }
     }
 

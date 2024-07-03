@@ -31,40 +31,10 @@ class ServiceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setItemData(getData())
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun setItemData(driver: List<DriverModel>) {
-        val angkotImages = listOf(
-            R.drawable.angkot1,
-            R.drawable.angkot2,
-            R.drawable.angkot3,
-            R.drawable.angkot4,
-            R.drawable.angkot5,
-            R.drawable.angkot6,
-            R.drawable.angkot7,
-            R.drawable.angkot8,
-            R.drawable.angkot9,
-            R.drawable.angkot10
-        )
-
-        val adapter = VehicleAdapter(driver, angkotImages, requireContext())
-        binding.rvDriver.apply {
-            this.adapter = adapter
-            layoutManager = LinearLayoutManager(requireContext())
-        }
-    }
-
-    private fun getData(): List<DriverModel> {
-        val inputStream = requireContext().resources.openRawResource(R.raw.driver_data)
-        val jsonString = inputStream.bufferedReader().use(BufferedReader::readText)
-        val drivers: List<DriverModel> = Json.decodeFromString(jsonString)
-        Log.d("ServiceFragment", "getData: $drivers")
-        return drivers
     }
 }

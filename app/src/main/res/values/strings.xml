@@ -20,4 +20,5 @@
     <string name="plat_nomor">Plat nomor: %1$s</string>
     <string name="rute">Rute: %1$s</string>
     <string name="fare">Tarif: Rp5000</string>
+    <string name="back_button">Back Button</string>
 </resources>
