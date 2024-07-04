@@ -14,9 +14,10 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.rstj.sikat.BuildConfig
 import com.rstj.sikat.R
 import com.rstj.sikat.databinding.FragmentMapsBinding
@@ -31,15 +32,15 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 
-class MapsFragment : Fragment() {
+class MapsFragment : Fragment(), TransitAdapter.OnTransitItemClickListener {
 
     private lateinit var binding: FragmentMapsBinding
     private lateinit var googleMap: GoogleMap
     private lateinit var polylineDatabase: PolylineDatabase
     private lateinit var polylineDao: PolylineDao
-//    private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
 
     private val routeList = mutableListOf<RouteModel>()
+    private val markerList = mutableListOf<Marker>()
     private val callback = OnMapReadyCallback { maps ->
         googleMap = maps
 
@@ -70,24 +71,20 @@ class MapsFragment : Fragment() {
         polylineDatabase = PolylineDatabase.getDatabase(requireContext())
         polylineDao = polylineDatabase.polylineDao()
 
-//        bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
-//        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-//        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-//            override fun onStateChanged(bottomSheet: View, newState: Int) {
-//                // Handle state changes
-//                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-//                    binding.bottomSheet.visibility = View.GONE
-//                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-//                    binding.bottomSheet.visibility = View.VISIBLE
-//                }
-//            }
-//
-//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-//                // Handle slide offset changes
-//            }
-//        })
-
         binding.btnBack.setOnClickListener { requireActivity().finish() }
+    }
+
+    private fun zoomToFitMarkers() {
+        if (markerList.isNotEmpty()) {
+            val builder = LatLngBounds.Builder()
+            markerList.forEach { marker ->
+                builder.include(marker.position)
+            }
+            val bounds = builder.build()
+            val padding = 200 // Padding from edges of the screen (in pixels)
+            val cu = CameraUpdateFactory.newLatLngBounds(bounds, padding)
+            googleMap.animateCamera(cu)
+        }
     }
 
     private fun setupSpinner(routeTitles: List<String>) {
@@ -116,14 +113,20 @@ class MapsFragment : Fragment() {
                     googleMap.clear()
                     drawRoute()
                 } else {
-                    routeList.forEach {
-                        if (it.title == selectedItem) {
+                    routeList.forEach { route ->
+                        val transits = route.stops
+                        val tags = transits.map { it.tag }
+                        val coordinates = transits.map { it.coordinate }
+                        if (route.title == selectedItem) {
                             googleMap.clear()
-                            makeRoute(it)
-                            showBottomSheet(it.title, it.stops.map { transit -> transit.tag })
+                            makeRoute(route)
+                            showBottomSheet(route.title, transits)
+                            makeMarker(coordinates, tags)
                         }
                     }
                 }
+
+                zoomToFitMarkers()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -132,13 +135,14 @@ class MapsFragment : Fragment() {
         }
     }
 
-    private fun showBottomSheet(routeTitle: String, transitsTitle: List<String>) {
-//        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-//
-//        binding.tvTitleSheet.text = routeTitle
-
-        val bottomSheet = BottomSheetFragment.newInstance(routeTitle, transitsTitle)
-        bottomSheet.show(requireActivity().supportFragmentManager, BottomSheetFragment.TAG)
+    private fun showBottomSheet(routeTitle: String, transitsTitle: List<TransitModel>) {
+        // Check if the BottomSheetFragment is already shown
+        val existingFragment =
+            requireActivity().supportFragmentManager.findFragmentByTag(BottomSheetFragment.TAG)
+        if (existingFragment == null) {
+            BottomSheetFragment.newInstance(routeTitle, transitsTitle, this)
+                ?.show(requireActivity().supportFragmentManager, BottomSheetFragment.TAG)
+        }
     }
 
     private fun drawRoute() {
@@ -203,16 +207,17 @@ class MapsFragment : Fragment() {
     }
 
     private fun makeRoute(route: RouteModel) {
-        makeMarker(route.stops.map { it.coordinate }, route.stops.map { it.tag })
         for (i in 0 until route.stops.size - 2) {
             fetchRoute(route.stops[i].coordinate, route.stops[i + 1].coordinate, route.color)
         }
     }
 
     private fun makeMarker(positions: List<LatLng>, titles: List<String>) {
-        Log.d("MapsFragment", "titles: $titles")
-        positions.forEach {
-            googleMap.addMarker(MarkerOptions().position(it).title(titles[positions.indexOf(it)]))
+        positions.forEach { latLng ->
+            val marker = googleMap.addMarker(
+                MarkerOptions().position(latLng).title(titles[positions.indexOf(latLng)])
+            )
+            marker?.let { markerList.add(it) }
         }
     }
 
@@ -323,5 +328,14 @@ class MapsFragment : Fragment() {
             polylineOptions.add(p)
         }
         return polylineOptions
+    }
+
+    override fun onTransitItemClick(transitModel: TransitModel) {
+        markerList.forEach {
+            if (it.position == transitModel.coordinate) {
+                it.showInfoWindow()
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(it.position, 14f))
+            }
+        }
     }
 }

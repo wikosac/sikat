@@ -1,8 +1,6 @@
 package com.rstj.sikat.src.vehicle
 
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rstj.sikat.R
@@ -50,7 +48,6 @@ class VehicleActivity : AppCompatActivity() {
         val inputStream = resources.openRawResource(R.raw.driver_data)
         val jsonString = inputStream.bufferedReader().use(BufferedReader::readText)
         val drivers: List<DriverModel> = Json.decodeFromString(jsonString)
-        Log.d("ServiceFragment", "getData: $drivers")
         return drivers
     }
 }

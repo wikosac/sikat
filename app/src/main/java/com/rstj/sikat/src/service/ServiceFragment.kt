@@ -1,19 +1,11 @@
 package com.rstj.sikat.src.service
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.rstj.sikat.R
 import com.rstj.sikat.databinding.FragmentServiceBinding
-import com.rstj.sikat.src.model.DriverModel
-import com.rstj.sikat.src.vehicle.VehicleAdapter
-import kotlinx.serialization.json.Json
-import java.io.BufferedReader
 
 class ServiceFragment : Fragment() {
 

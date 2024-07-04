@@ -8,7 +8,6 @@ import com.rstj.sikat.R
 import com.rstj.sikat.src.model.DriverModel
 import kotlinx.serialization.json.Json
 import java.io.BufferedReader
-import java.io.File
 
 class VehicleViewModel() : ViewModel() {
 
