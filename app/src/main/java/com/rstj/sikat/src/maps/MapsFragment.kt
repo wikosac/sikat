@@ -157,7 +157,11 @@ class MapsFragment : Fragment(), TransitAdapter.OnTransitItemClickListener {
         val halteMayjend = LatLng(-6.869306, 109.128994)
         val banjaran = LatLng(-6.941277827215492, 109.13639344087923)
         val halteSmp6 = LatLng(-6.859115, 109.125995)
+        val halteSmp7 = LatLng(-6.874678, 109.127653)
         val slawi = LatLng(-6.983040804249951, 109.13758624187152)
+        val kemantran = LatLng(-6.883904812581287, 109.18342761600042)
+        val gumalar = LatLng(-6.9242114334136, 109.10003336409254)
+        val jatibarang = LatLng(-6.921822266348941, 109.07811061986213)
 
         val transitTerminal = TransitModel(terminal, "Terminal Tegal")
         val transitHalteYosSudarso = TransitModel(halteYosSudarso, "Halte Yos Sudarso")
@@ -166,7 +170,11 @@ class MapsFragment : Fragment(), TransitAdapter.OnTransitItemClickListener {
         val transitHalteMayjend = TransitModel(halteMayjend, "Halte Mayjend")
         val transitBanjaran = TransitModel(banjaran, "Banjaran")
         val transitHalteSmp6 = TransitModel(halteSmp6, "Halte SMP 6")
+        val transitHalteSmp7 = TransitModel(halteSmp7, "Halte SMP 7")
         val transitSlawi = TransitModel(slawi, "Slawi")
+        val transitKemantran = TransitModel(kemantran, "Kemantran")
+        val transitGumalar = TransitModel(gumalar, "Gumalar")
+        val transitJatibarang = TransitModel(jatibarang, "Jatibarang")
 
         val jalurA1Transit =
             listOf(transitTerminal, transitHalteYosSudarso, transitHaltePoltran, transitTerminal)
@@ -189,25 +197,47 @@ class MapsFragment : Fragment(), TransitAdapter.OnTransitItemClickListener {
             transitHalteYosSudarso,
             transitHalteSmpMuh,
             transitBanjaran,
-            transitSlawi
+            transitSlawi,
+            transitHalteSmp7,
+            transitTerminal
+        )
+        val jalurKemantranTransit = listOf(
+            transitTerminal,
+            transitHalteSmpMuh,
+            transitHaltePoltran,
+            transitKemantran,
+            transitHaltePoltran,
+            transitTerminal
+        )
+        val jalurJatibarangTransit = listOf(
+            transitTerminal,
+            transitGumalar,
+            transitJatibarang,
+            transitTerminal
         )
 
-        val route0 = RouteModel(jalurA1Transit, Color.BLACK, "Pilih Rute")
+        val route0 = RouteModel(listOf(), Color.WHITE, "Pilih Rute")
         val route1 = RouteModel(jalurA1Transit, Color.CYAN, "Jalur A1")
         val route2 = RouteModel(jalurA2Transit, Color.RED, "Jalur A2")
         val route3 = RouteModel(jalurTegalBanjaranTransit, Color.MAGENTA, "Jalur Tegal Banjaran")
         val route4 = RouteModel(jalurTegalSlawiTransit, Color.GREEN, "Jalur Tegal Slawi")
+        val route5 = RouteModel(jalurKemantranTransit, Color.YELLOW, "Jalur Kemantran")
+        val route6 = RouteModel(jalurJatibarangTransit, Color.BLUE, "Jalur Jatibarang")
 
         routeList.add(route0)
         routeList.add(route1)
         routeList.add(route2)
         routeList.add(route3)
         routeList.add(route4)
+        routeList.add(route5)
+        routeList.add(route6)
 
         makeRoute(route1)
         makeRoute(route2)
         makeRoute(route3)
         makeRoute(route4)
+        makeRoute(route5)
+        makeRoute(route6)
     }
 
     private fun makeRoute(route: RouteModel) {
