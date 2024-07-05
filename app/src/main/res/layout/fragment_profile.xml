@@ -23,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:text="Sikat"/>
+            android:text="@string/app_name"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

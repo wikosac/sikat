@@ -84,6 +84,9 @@ class MapsFragment : Fragment(), TransitAdapter.OnTransitItemClickListener {
             val padding = 200 // Padding from edges of the screen (in pixels)
             val cu = CameraUpdateFactory.newLatLngBounds(bounds, padding)
             googleMap.animateCamera(cu)
+        } else {
+            val rita = LatLng(-6.870550430170776, 109.11867025091709)
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(rita, 13f))
         }
     }
 
@@ -112,6 +115,7 @@ class MapsFragment : Fragment(), TransitAdapter.OnTransitItemClickListener {
                 if (position == 0) {
                     googleMap.clear()
                     drawRoute()
+                    markerList.clear()
                 } else {
                     routeList.forEach { route ->
                         val transits = route.stops

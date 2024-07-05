@@ -23,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:text="Sikat"/>
+            android:text="@string/app_name"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -155,7 +155,15 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_margin="16dp"
-        android:background="@drawable/rounded"
-        app:layout_constraintTop_toBottomOf="@id/tv_informasi"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_informasi">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            app:shapeAppearanceOverlay="@style/RoundedImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tu"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

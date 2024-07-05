@@ -12,15 +12,13 @@ class VehicleAdapter(
     private val driverModel: List<DriverModel>,
     private val imgResId: List<Int>,
     private val context: Context,
-): RecyclerView.Adapter<VehicleAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<VehicleAdapter.ViewHolder>() {
 
     class ViewHolder(binding: ItemVehicleBinding) : RecyclerView.ViewHolder(binding.root) {
         private val imgAngkot = binding.imgAngkot
         private val tvPlat = binding.tvPlat
         private val tvNameDriver = binding.tvNameDriver
         private val tvRoute = binding.tvRoute
-
-
 
         fun bind(driverModel: DriverModel, imgResId: Int, context: Context) {
             imgAngkot.setImageResource(imgResId)
